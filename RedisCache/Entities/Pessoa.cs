@@ -6,6 +6,10 @@ namespace RedisCache.Entities
     {
         public string Name { get; set; }
 
+        public Pessoa()
+        {
+
+        }
         public Pessoa(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

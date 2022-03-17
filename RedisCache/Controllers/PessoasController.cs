@@ -29,27 +29,28 @@ namespace RedisCache.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] PessoaViewModel pessoaViewModel)
+        public async Task<ActionResult> Get(int id)
         {
             try
             {
-                List<Pessoa> lPessoas = new();
+                Pessoa pessoa = new();
+                var key = "pessoa" + id;
 
-                var cachedCategory = _cache.GetString("pessoaList");
+                var cachedCategory = _cache.GetStringAsync(key).Result;
                 if (!string.IsNullOrEmpty(cachedCategory))
                 {
-                    lPessoas = JsonConvert.DeserializeObject<List<Pessoa>>(cachedCategory);
+                    pessoa = JsonConvert.DeserializeObject<Pessoa>(cachedCategory);
                 }
                 else
                 {
-                    lPessoas = await _service.GetByName(pessoaViewModel);
+                    pessoa = await _service.GetById(id);
 
                     DistributedCacheEntryOptions options = new();
                     options.SetAbsoluteExpiration(new TimeSpan(0, 0, 30));
 
-                    _cache.SetString("pessoaList", JsonConvert.SerializeObject(lPessoas), options);
+                    _cache.SetString(key, JsonConvert.SerializeObject(pessoa), options);
                 }
-                return Ok(lPessoas);
+                return Ok(pessoa);
             }
             catch (Exception ex)
             {

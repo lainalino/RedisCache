@@ -14,6 +14,11 @@ namespace RedisCache.Repositories
         {
             return await Db.Pessoa.Where(p => p.Name.Contains(name)).ToListAsync();
         }
+        public async Task<Pessoa> GetById(int id)
+        {
+            return await Db.Pessoa.Where(p => p.Id == id).FirstAsync();
+        }
+        
 
     }
 }

@@ -6,5 +6,6 @@ namespace RedisCache.Services.Interfaces
     {
         Task<Pessoa> Add(PessoaViewModel brandViewModel);
         Task<List<Pessoa>> GetByName(PessoaViewModel pessoaViewModel);
+        Task<Pessoa> GetById(int id);
     }
 }

@@ -26,5 +26,10 @@ namespace RedisCache.Services
             return await _pessoaRepository.GetByName(pessoaViewModel.Name);
         }
 
+        public async Task<Pessoa> GetById(int id)
+        {
+            return await _pessoaRepository.GetById(id);
+        }
+
     }
 }
